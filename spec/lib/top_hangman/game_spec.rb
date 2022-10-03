@@ -5,8 +5,9 @@ RSpec.describe TopHangman::Game do
     describe 'when base file is not found' do
       let(:game_wrong_base_file) { described_class.new('wrong_file.txt') }
 
-      it 'returns nil' do
-        expect(game_wrong_base_file.base_words).to be_nil
+      it 'sets @base_words to nil' do
+        base_words = game_wrong_base_file.instance_variable_get(:@base_words)
+        expect(base_words).to be_nil
       end
 
       it 'sets @list_of_words_size to nil' do
@@ -28,8 +29,15 @@ RSpec.describe TopHangman::Game do
     describe 'when base file is found' do
       let(:game) { described_class.new('google-10000-english-no-swears.txt') }
 
-      it 'returns array of words' do
-        expect(game.base_words).not_to be_nil
+      it 'sets @base_words to an array of words' do
+        base_words = game.instance_variable_get(:@base_words)
+        expect(base_words).to be_an(Array)
+      end
+
+      it 'sets each word of @base_words a of size between 5 and 12' do
+        base_words = game.instance_variable_get(:@base_words)
+        base_small_or_bog_words = base_words.select { |word| word.size < 5 || word.size > 12 }
+        expect(base_small_or_bog_words).to be_empty
       end
 
       it 'sets @list_of_words_size to size of base_words' do
