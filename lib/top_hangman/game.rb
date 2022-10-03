@@ -17,7 +17,7 @@ module TopHangman
       return nil unless File.exist?(file_name)
 
       base_file = File.open(file_name, 'r')
-      base_file.readlines.map(&:chomp)
+      base_file.readlines.map(&:chomp).select { |line| line.size > 5 && line.size < 12 }
     end
 
     def random_word
