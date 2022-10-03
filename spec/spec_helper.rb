@@ -1,5 +1,5 @@
 require 'byebug'
-require './lib/main'
+require './lib/top_hangman/game'
 
 RSpec.configure do |config|
   # Use the specified formatter
