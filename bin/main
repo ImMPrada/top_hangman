@@ -2,13 +2,15 @@
 
 require 'colorize'
 require 'tty-font'
+require 'byebug'
 
-require_relative '../lib/render'
-require_relative '../lib/player'
-require_relative '../lib/board'
-require_relative '../lib/round'
-require_relative '../lib/game'
+# require_relative '../lib/render'
+# require_relative '../lib/player'
+# require_relative '../lib/board'
+# require_relative '../lib/round'
+require_relative '../lib/top_hangman/game'
 
-# system 'clear'
-# game = Game.new
+system 'clear'
+game = TopHangman::Game.new('google-10000-english-no-swears.txt')
+puts game
 # game.start
