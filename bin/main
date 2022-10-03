@@ -12,4 +12,5 @@ require_relative '../lib/top_hangman/game'
 
 system 'clear'
 game = TopHangman::Game.new('google-10000-english-no-swears.txt')
+puts game
 # game.start
