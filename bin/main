@@ -17,5 +17,5 @@ puts game
 
 board = TopHangman::Board.new
 puts board.states
-board.states.each { |key, value| puts value }
+board.states.each_value { |value| puts value }
 # game.start
