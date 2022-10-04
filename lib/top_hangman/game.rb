@@ -11,9 +11,14 @@ module TopHangman
     end
 
     def start
-      @round = create_round
+      game_loop
     end
 
+    def game_loop
+      @round = create_round
+
+      @round.start_round
+    end
     private
 
     def read_words_file(file_name)

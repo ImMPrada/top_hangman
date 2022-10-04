@@ -15,7 +15,7 @@ module TopHangman
       @render = Render.new
     end
 
-    def try_guess
+    def start_round
       @guess = @render.ask_for_guess
       @guesses << @guess
     end
