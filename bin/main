@@ -15,5 +15,7 @@ system 'clear'
 game = TopHangman::Game.new('google-10000-english-no-swears.txt')
 puts game
 
-TopHangman::Board.new
+board = TopHangman::Board.new
+puts board.states
+board.states.each { |key, value| puts value }
 # game.start
