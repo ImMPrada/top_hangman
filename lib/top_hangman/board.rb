@@ -13,13 +13,17 @@ module TopHangman
 
     def read_hangman_files
       hangman_states = {}
-      NUMBER_OF_STATES.times { |i| hangman_states[i] = open_file(i).readlines.map(&:chomp) }
+      NUMBER_OF_STATES.times { |i| hangman_states[i] = open_file(i) }
 
       hangman_states
     end
 
     def open_file(index)
-      File.open("#{FOLDER_NAME}/state_0#{index}.txt", 'r')
+      file = File.open("#{FOLDER_NAME}/state_0#{index}.txt", 'r')
+      lines_read = file.readlines.map(&:chomp)
+      file.close
+
+      lines_read
     end
   end
 end
