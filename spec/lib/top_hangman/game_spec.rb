@@ -45,15 +45,23 @@ RSpec.describe TopHangman::Game do
         expect(list_of_words_size).to eq(game.base_words.size)
       end
 
-      it 'sets @history_of_words to empty an array of one element' do
+      it 'sets @history_of_words to empty an empty array' do
         history_of_words = game.instance_variable_get(:@history_of_words)
-        expect(history_of_words.size).to be(1)
+        expect(history_of_words).to be_empty
       end
+    end
+  end
 
-      it 'sets @round to Round class object' do
-        round = game.instance_variable_get(:@round).class
-        expect(round).to be(TopHangman::Round)
-      end
+  describe '#start' do
+    let(:game) { described_class.new('google-10000-english-no-swears.txt') }
+
+    before do
+      game.start
+    end
+
+    it 'sets @round to Round class object' do
+      round = game.instance_variable_get(:@round).class
+      expect(round).to be(TopHangman::Round)
     end
   end
 end
