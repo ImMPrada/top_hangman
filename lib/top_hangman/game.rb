@@ -8,6 +8,9 @@ module TopHangman
       @base_words = read_words_file(file_name)
       @list_of_words_size = base_words&.size
       @history_of_words = []
+    end
+
+    def start
       @round = create_round
     end
 
