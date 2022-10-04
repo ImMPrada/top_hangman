@@ -19,6 +19,7 @@ module TopHangman
 
       @round.start_round
     end
+
     private
 
     def read_words_file(file_name)

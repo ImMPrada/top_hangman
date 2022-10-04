@@ -6,7 +6,7 @@ RSpec.describe TopHangman::Render do
   describe '#ask_for_guess' do
     let(:input_letter) { 'a' }
 
-    before do 
+    before do
       allow(render).to receive(:gets).and_return("#{input_letter}\n")
     end
 
