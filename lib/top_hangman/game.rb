@@ -23,8 +23,10 @@ module TopHangman
     def random_word
       return nil unless base_words
 
-      word = base_words[rand(0..@list_of_words_size)]
-      return word unless word_in_history?(word)
+      random_index = rand(0..@list_of_words_size)
+      random_word = base_words[random_index]
+      base_words.delete_at(random_index)
+      @list_of_words_size -= 1
 
       random_word
     end
