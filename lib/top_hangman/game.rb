@@ -1,12 +1,12 @@
 require_relative 'round'
 require_relative 'word'
+require_relative 'render'
 
 module TopHangman
   class Game
-    # attr_reader :base_words
-
     def initialize
       @word = Word.new
+      @render = Render.new
     end
 
     def start
@@ -16,13 +16,15 @@ module TopHangman
     def game_loop
       @round = create_round
 
-      @round.start_round
+      result_of_round = @round.start_round
+      @render.endgame_message(result_of_round)
     end
 
     private
 
     def create_round
-      Round.new(word)
+      @word.set_current_word
+      Round.new(@word, @render)
     end
   end
 end
