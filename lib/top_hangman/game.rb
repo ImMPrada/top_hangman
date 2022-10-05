@@ -2,6 +2,9 @@ require_relative 'round'
 
 module TopHangman
   class Game
+    MIN_WORD_SIZE = 5
+    MAX_WORD_SIZE = 12
+
     attr_reader :base_words
 
     def initialize(file_name)
@@ -26,7 +29,7 @@ module TopHangman
       return nil unless File.exist?(file_name)
 
       base_file = File.open(file_name, 'r')
-      base_file.readlines.map(&:chomp).select { |line| line.size > 5 && line.size < 12 }
+      base_file.readlines.map(&:chomp).select { |line| line.size > MIN_WORD_SIZE && line.size < MAX_WORD_SIZE }
     end
 
     def random_word
