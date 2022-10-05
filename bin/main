@@ -9,8 +9,13 @@ require 'byebug'
 # require_relative '../lib/board'
 # require_relative '../lib/round'
 require_relative '../lib/top_hangman/game'
+require_relative '../lib/top_hangman/board'
 
 system 'clear'
 game = TopHangman::Game.new('google-10000-english-no-swears.txt')
 puts game
+
+board = TopHangman::Board.new
+puts board.states
+board.states.each_value { |value| puts value }
 # game.start
