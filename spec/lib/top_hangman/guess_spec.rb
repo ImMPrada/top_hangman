@@ -40,6 +40,30 @@ RSpec.describe TopHangman::Guess do
     end
   end
 
+  describe '#try_guess' do
+    describe 'when typing wrong guess' do
+      let(:input_wrong_letter) { 'k' }
+      let(:blank_word_progress) { '____' }
+
+      before do
+        repos_response = instance_double(
+          TopHangman::Render,
+          ask_for_guess: input_wrong_letter
+        )
+        allow(TopHangman::Render).to receive(:new).and_return(repos_response)
+      end
+
+      it 'sets @word_progress to array of underscores' do
+        guess.try_guess
+        word_progress = guess.instance_variable_get(:@word_progress)
+        expect(word_progress.join('')).to eq(blank_word_progress)
+      end
+
+      it 'returns :guess_wrong' do
+        expect(guess.try_guess).to eq(:guess_wrong)
+      end
+    end
+
     describe 'when typing right guess' do
       let(:input_right_letter) { 'o' }
       let(:word_progress_response) { "_#{input_right_letter}__" }
