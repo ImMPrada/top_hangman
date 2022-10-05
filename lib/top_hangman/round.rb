@@ -17,7 +17,31 @@ module TopHangman
 
     def start_round
       @guess = @render.ask_for_guess
+
+      run_round_loop
+    end
+
+    def run_round_loop
+      check_guess
+      update_guesses_history
+    end
+
+    def update_guesses_history
       @guesses << @guess
+    end
+
+    private
+
+    def check_guess
+      @is_guess_repeated_or_in_word = false
+      return @is_guess_repeated_or_in_word = true if @guesses.include?(@guess)
+
+      @word_array.each_with_index do |letter, index|
+        next unless letter == @guess
+
+        @word_progress[index] = letter
+        @is_guess_repeated_or_in_word = true
+      end
     end
   end
 end
