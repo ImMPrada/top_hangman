@@ -12,6 +12,23 @@ module TopHangman
       gets.chomp
     end
 
+    def show_wrong_guess_message
+      puts 'Wrong guess!'
+    end
+
+    def show_repeated_guess_message
+      puts 'Repeated guess!'
+    end
+
+    def show_correct_guess_message(word_progress)
+      puts word_progress.join(' ')
+    end
+
+    def endgame_message(result)
+      return puts 'you win' if result == :you_win
+      puts 'you lose'
+    end
+
     private
 
     def read_hangman_files
