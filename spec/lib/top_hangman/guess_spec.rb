@@ -39,4 +39,40 @@ RSpec.describe TopHangman::Guess do
       expect(word_progress).to eq(Array.new(word.length, '_'))
     end
   end
+
+    describe 'when typing right guess' do
+      let(:input_right_letter) { 'o' }
+      let(:word_progress_response) { "_#{input_right_letter}__" }
+
+      before do
+        repos_response = instance_double(
+          TopHangman::Render,
+          ask_for_guess: input_right_letter
+        )
+        allow(TopHangman::Render).to receive(:new).and_return(repos_response)
+      end
+
+      it 'sets @current_guess to guess' do
+        guess.try_guess
+        current_guess = guess.instance_variable_get(:@current_guess)
+        expect(current_guess).to eq(input_right_letter)
+      end
+
+      it 'sets @guess_tries to array of guess' do
+        guess.try_guess
+        guess_tries = guess.instance_variable_get(:@guess_tries)
+        expect(guess_tries).to eq([input_right_letter])
+      end
+
+      it 'sets @word_progress to array of underscores' do
+        guess.try_guess
+        word_progress = guess.instance_variable_get(:@word_progress)
+        expect(word_progress.join('')).to eq(word_progress_response)
+      end
+
+      it 'returns :guess_correct' do
+        expect(guess.try_guess).to eq(:guess_correct)
+      end
+    end
+  end
 end
