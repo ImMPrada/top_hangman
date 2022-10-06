@@ -9,6 +9,7 @@ module TopHangman
       @word = word
       @guess = Guess.new(@word.current_word, render)
       @render = render
+      @render.setup_guess(@guess)
     end
 
     def start_round
@@ -20,7 +21,7 @@ module TopHangman
     end
 
     def run_round_loop
-      @render.show_progress(@guess.word_progress, @guess.mistakes_count)
+      @render.show_progress
 
       puts mistakes_limit_reached?
       @guess.run_loop
