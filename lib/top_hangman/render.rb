@@ -76,7 +76,7 @@ module TopHangman
     def winning_message
       print_title
       print_hangman_state
-      puts 'YOU CHOOSE WISELY:'.green
+      puts 'YOU CHOSE WISELY:'.green
       puts @guess.word_progress.join(' ').upcase.green
       puts ' '
       puts ' '
