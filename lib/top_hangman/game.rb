@@ -5,7 +5,6 @@ require_relative 'render'
 module TopHangman
   class Game
     def initialize
-      @word = Word.new
       @render = Render.new
     end
 

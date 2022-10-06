@@ -1,46 +1,42 @@
 module TopHangman
   class Word
     WORDS_FILE_SOURCE = 'lib/google-10000-english-no-swears.txt'.freeze
-    MIN_WORD_SIZE = 5
-    MAX_WORD_SIZE = 12
+    MIN_WORD_SIZE = 4
+    MAX_WORD_SIZE = 13
 
-    attr_reader :current_word
+    attr_reader :value
 
-    def initialize
-      read_words_file(WORDS_FILE_SOURCE)
-      @history_of_words = []
-      @current_word = nil
+    def initialize(str)
+      @value = str
     end
 
-    def set_current_word
-      @current_word = random_word
-      @history_of_words << @current_word
+    def self.from_list
+      str = pick_random_word
+      new(str)
     end
 
-    private
+    def self.read_words_file
+      return unless File.exist?(WORDS_FILE_SOURCE)
 
-    attr_reader :base_words
-
-    def read_words_file(file_name)
-      return nil unless File.exist?(file_name)
-
-      base_file = File.open(file_name, 'r')
-      @base_words = base_file.readlines.map(&:chomp).select { |line| valid_word?(line) }
+      base_file = File.open(WORDS_FILE_SOURCE, 'r')
+      @@base_words = base_file.readlines.map(&:chomp).select { |line| valid_word?(line) }
       base_file.close
     end
 
-    def valid_word?(word)
-      word.size > MIN_WORD_SIZE && word.size < MAX_WORD_SIZE
-    end
+    def self.pick_random_word
+      read_words_file if @@base_words.nil?
 
-    def random_word
-      return nil unless base_words
-
-      random_index = rand(0..base_words.size)
-      random_word = base_words[random_index]
-      base_words.delete_at(random_index)
+      random_index = rand(0...@@base_words.size)
+      random_word = @@base_words[random_index]
+      @@base_words.delete_at(random_index)
 
       random_word
     end
+
+    def self.valid_word?(str)
+      str.size > MIN_WORD_SIZE && str.size < MAX_WORD_SIZE
+    end
+
+    private_class_method :pick_random_word, :valid_word?
   end
 end
