@@ -2,7 +2,8 @@ require './spec/spec_helper'
 
 RSpec.describe TopHangman::Guess do
   let(:word) { 'word' }
-  let(:guess) { described_class.new(word) }
+  let(:render) { TopHangman::Render.new }
+  let(:guess) { described_class.new(word, render) }
 
   describe '#initialize' do
     it 'returns Guess class object' do
