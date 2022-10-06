@@ -5,35 +5,25 @@ module TopHangman
   class Round
     attr_reader :word
 
-    def initialize(word, render)
-      @word = word
-      @guess = Guess.new(@word.current_word, render)
-      @render = render
-      @render.setup_guess(@guess)
+    def initialize
+      @word = Word.from_list
+      @guess_history = []
+      @word_history = []
+      @current_guess = nil
     end
 
-    def start_round
-      run_round_loop
-
-      return :you_lose if mistakes_limit_reached?
-
-      :you_win
+    def create_guess(letter)
+      @current_guess = Guess.new(letter, @word)
     end
 
-    def run_round_loop
-      @render.show_progress
+    def determine_guess_state
+      return Guess::REPEATED if @guess.repeated_letter?(@guess_history)
 
-      puts mistakes_limit_reached?
-      @guess.run_loop
-      run_round_loop unless word_revealed? || mistakes_limit_reached?
+      @guess.validate
     end
 
-    def mistakes_limit_reached?
-      @guess.mistakes_count == 7
-    end
-
-    def word_revealed?
-      @guess.word_progress.join('') == @word.current_word
+    def update_guess_history
+      @guess_history << @guess
     end
   end
 end
