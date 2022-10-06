@@ -20,11 +20,10 @@ module TopHangman
     end
 
     def run_round_loop
-      puts @word.current_word
-      puts @guess.mistakes_count
+      @render.show_progress(@guess.word_progress, @guess.mistakes_count)
 
-      @guess.run_loop
       puts mistakes_limit_reached?
+      @guess.run_loop
       run_round_loop unless word_revealed? || mistakes_limit_reached?
     end
 
