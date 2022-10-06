@@ -25,11 +25,23 @@ module TopHangman
     end
 
     def endgame_message(result)
-      return puts 'you win' if result == :you_win
-      puts 'you lose'
+      result == :you_win ? puts('You win!') : puts('You lose!')
+    end
+
+    def show_progress(word_progress, mistakes_count)
+      print_title
+      puts @states[mistakes_count]
+      puts word_progress.join(' ')
     end
 
     private
+
+    def print_title
+      system 'clear'
+      puts '---------------------'
+      puts 'HANGMAN'
+      puts '---------------------'
+    end
 
     def read_hangman_files
       hangman_states = {}
