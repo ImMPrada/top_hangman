@@ -8,6 +8,17 @@ module TopHangman
 
     def initialize(str)
       @value = str
+      @progress = Array.new(str.size, false)
+    end
+
+    def update_progress_with(letter)
+      @value.split('').each_with_index do |char, i|
+        @progress[i] = true if char == letter
+      end
+    end
+
+    def letter_present?(letter)
+      @value.include?(letter)
     end
 
     def self.from_list
@@ -37,6 +48,6 @@ module TopHangman
       str.size > MIN_WORD_SIZE && str.size < MAX_WORD_SIZE
     end
 
-    private_class_method :pick_random_word, :valid_word?
+    private_class_method :pick_random_word, :valid_word?, :read_words_file
   end
 end
