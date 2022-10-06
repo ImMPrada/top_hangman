@@ -6,7 +6,7 @@ module TopHangman
     NUMBER_OF_STATES = 7
     FOLDER_NAME = 'lib/hangmans'.freeze
     H1_FONT = TTY::Font.new(:starwars)
-    H3_FONT = TTY::Font.new(:starwars)
+    H3_FONT = TTY::Font.new(:straight)
     TITLE = 'HANGMAN'.freeze
 
     def initialize
@@ -18,25 +18,17 @@ module TopHangman
       gets.chomp
     end
 
-    def show_wrong_guess_message
-      puts 'Wrong guess!'
-    end
-
-    def show_repeated_guess_message
-      puts 'Repeated guess!'
-    end
-
     def show_correct_guess_message(word_progress)
       puts word_progress.join(' ')
     end
 
     def endgame_message(result)
-      result == :you_win ? puts('You win!') : puts('You lose!')
+      result == :you_win ? winning_message : losing_message
     end
 
     def show_progress
       print_title
-      pring_hangman_state
+      print_hangman_state
       print_guess_tries
     end
 
@@ -66,8 +58,8 @@ module TopHangman
       lines_read
     end
 
-    def pring_hangman_state
-      puts @states[@guess.mistakes_count]
+    def print_hangman_state
+      puts @states[[@guess.mistakes_count, 6].min]
       puts ' '
       puts ' '
     end
@@ -75,10 +67,32 @@ module TopHangman
     def print_guess_tries
       puts @guess.guess_tries.join(' ').yellow
       puts ' '
-      puts "Mistakes: #{@guess.mistakes_count}".red
+      puts ['Mistakes counter:'.yellow, @guess.mistakes_count.to_s.red].join(' ')
       puts ' '
       puts @guess.word_progress.join(' ').green
       puts ' '
+    end
+
+    def winning_message
+      print_title
+      print_hangman_state
+      puts 'YOU CHOOSE WISELY:'.green
+      puts @guess.word_progress.join(' ').upcase.green
+      puts ' '
+      puts ' '
+      puts ' '
+      puts H1_FONT.write('YOU WIN!').green
+    end
+
+    def losing_message
+      print_title
+      print_hangman_state
+      puts 'THE RIGHT WORD WAS:'.red
+      puts @guess.word.upcase.red
+      puts ' '
+      puts ' '
+      puts ' '
+      puts H1_FONT.write('YOU LOSE!').red
     end
   end
 end
