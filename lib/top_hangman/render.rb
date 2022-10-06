@@ -1,7 +1,13 @@
+require 'colorize'
+require 'tty-font'
+
 module TopHangman
   class Render
     NUMBER_OF_STATES = 7
     FOLDER_NAME = 'lib/hangmans'.freeze
+    H1_FONT = TTY::Font.new(:starwars)
+    H3_FONT = TTY::Font.new(:starwars)
+    TITLE = 'HANGMAN'.freeze
 
     def initialize
       @states = read_hangman_files
@@ -28,19 +34,21 @@ module TopHangman
       result == :you_win ? puts('You win!') : puts('You lose!')
     end
 
-    def show_progress(word_progress, mistakes_count)
+    def show_progress
       print_title
-      puts @states[mistakes_count]
-      puts word_progress.join(' ')
+      pring_hangman_state
+      print_guess_tries
+    end
+
+    def setup_guess(guess)
+      @guess = guess
     end
 
     private
 
     def print_title
       system 'clear'
-      puts '---------------------'
-      puts 'HANGMAN'
-      puts '---------------------'
+      puts H1_FONT.write(TITLE).cyan
     end
 
     def read_hangman_files
@@ -56,6 +64,21 @@ module TopHangman
       file.close
 
       lines_read
+    end
+
+    def pring_hangman_state
+      puts @states[@guess.mistakes_count]
+      puts ' '
+      puts ' '
+    end
+
+    def print_guess_tries
+      puts @guess.guess_tries.join(' ').yellow
+      puts ' '
+      puts "Mistakes: #{@guess.mistakes_count}".red
+      puts ' '
+      puts @guess.word_progress.join(' ').green
+      puts ' '
     end
   end
 end
