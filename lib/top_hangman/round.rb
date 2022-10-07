@@ -10,7 +10,7 @@ module TopHangman
     WON = :won
     LOST = :lost
 
-    attr_reader :word, :current_guess, :errors_count, :state
+    attr_reader :word, :current_guess, :errors_count, :state, :guess_history
 
     def initialize
       @word = Word.from_list

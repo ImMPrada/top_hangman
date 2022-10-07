@@ -6,7 +6,7 @@ module TopHangman
 
     @@base_words = nil
 
-    attr_reader :progress
+    attr_reader :progress, :value
 
     def initialize(str)
       @value = str
