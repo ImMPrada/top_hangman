@@ -1,29 +1,37 @@
 require_relative 'round'
 require_relative 'word'
-require_relative 'render'
+require_relative 'guess'
 
 module TopHangman
   class Game
+    RUNNING = :running
+    STOPPED = :stopped
+
+    attr_reader :current_round, :rounds_history, :state
+
     def initialize
-      @render = Render.new
+      @current_round = nil
+      @rounds_history = []
+      @state = nil
     end
 
     def start
-      game_loop
+      @state = RUNNING
+      @current_round = Round.new
     end
 
-    def game_loop
-      @round = create_round
-
-      result_of_round = @round.start_round
-      @render.endgame_message(result_of_round)
+    def play_round(letter)
+      @current_round.create_guess(letter)
+      @current_round.update_state
     end
 
-    private
+    def create_new_round
+      @rounds_history << @current_round
+      @current_round = Round.new
+    end
 
-    def create_round
-      @word.set_current_word
-      Round.new(@word, @render)
+    def stop
+      @state = STOPPED
     end
   end
 end
