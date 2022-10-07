@@ -35,6 +35,7 @@ module TopHangman
       puts ' '
       puts ' '
       puts H1_FONT.write('YOU WIN!').green
+      puts 'press enter to continue...'.yellow
     end
 
     def losing_message(errors_count:, word:)
@@ -45,6 +46,14 @@ module TopHangman
       puts ' '
       puts ' '
       puts H1_FONT.write('YOU LOSE!').red
+      puts 'press enter to continue...'.yellow
+    end
+
+    def ask_for_new_round
+      show_header(errors_count: 0)
+      puts H1_FONT.write('WELL  DONE!').cyan
+      puts H1_FONT.write('PLAY  AGAIN?').green
+      puts 'Y/N'.yellow
     end
 
     private
