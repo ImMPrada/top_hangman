@@ -4,7 +4,9 @@ module TopHangman
     MIN_WORD_SIZE = 4
     MAX_WORD_SIZE = 13
 
-    attr_reader :value
+    @@base_words = nil
+
+    attr_reader :progress
 
     def initialize(str)
       @value = str
