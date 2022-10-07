@@ -1,7 +1,13 @@
 #!/usr/bin/env ruby
 
+require 'byebug'
+
 require_relative '../lib/top_hangman/game'
+require_relative '../lib/top_hangman/renderer'
+require_relative '../lib/top_hangman/io'
 
 system 'clear'
 game = TopHangman::Game.new
-game.start
+renderer = TopHangman::Renderer.new
+
+TopHangman::IO.execute(game, renderer)
