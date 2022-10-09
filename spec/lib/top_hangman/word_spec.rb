@@ -15,6 +15,22 @@ RSpec.describe TopHangman::Word do
     end
   end
 
+  describe '.from_list' do
+    let(:word) { described_class.from_list }
+
+    it 'returns a word' do
+      expect(word).to be_a(described_class)
+    end
+
+    it 'fill the word with a random word' do
+      expect(word.value).to be_a(String)
+    end
+
+    it 'sets the progress' do
+      expect(word.progress).to eq(Array.new(word.value.size, false))
+    end
+  end
+
   describe '#set_current_word' do
     before do
       word.set_current_word
