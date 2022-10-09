@@ -1,7 +1,7 @@
 require './spec/spec_helper'
 
 RSpec.describe TopHangman::Word do
-  let(:test_string) { 'test_string' }
+  let(:test_string) { 'ruby' }
 
   describe '#initialize' do
     let(:word) { described_class.new(test_string) }
@@ -28,6 +28,16 @@ RSpec.describe TopHangman::Word do
 
     it 'sets the progress' do
       expect(word.progress).to eq(Array.new(word.value.size, false))
+    end
+  end
+
+  describe '#update_progress_with' do
+    let(:word) { described_class.new(test_string) }
+
+    before { word.update_progress_with('u') }
+
+    it 'updates the progress' do
+      expect(word.progress).to eq([false, true, false, false])
     end
   end
 
