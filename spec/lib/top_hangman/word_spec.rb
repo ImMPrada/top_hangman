@@ -41,18 +41,21 @@ RSpec.describe TopHangman::Word do
     end
   end
 
-  describe '#set_current_word' do
-    before do
-      word.set_current_word
+  describe '#letter_present?' do
+    let(:word) { described_class.new(test_string) }
+    let(:present_letter) { 'u' }
+    let(:absent_letter) { 'z' }
+
+    describe 'when the letter is present' do
+      it 'returns true' do
+        expect(word.letter_present?(present_letter)).to be(true)
+      end
     end
 
-    it 'sets @current_word to a random word' do
-      expect(word.current_word).to be_a(String)
-    end
-
-    it 'sets @history_of_words to an array of words' do
-      history_of_words = word.instance_variable_get(:@history_of_words)
-      expect(history_of_words).to be_an(Array)
+    describe 'when the letter is not present' do
+      it 'returns false' do
+        expect(word.letter_present?(absent_letter)).to be(false)
+      end
     end
   end
 end
