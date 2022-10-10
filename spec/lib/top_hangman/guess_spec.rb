@@ -1,102 +1,48 @@
 require './spec/spec_helper'
 
 RSpec.describe TopHangman::Guess do
-  let(:word) { 'word' }
-  let(:render) { TopHangman::Render.new }
-  let(:guess) { described_class.new(word, render) }
+  let(:word) { TopHangman::Word.new('ruby') }
+  let(:present_letter) { 'u' }
+  let(:absent_letter) { 'z' }
 
-  describe '#initialize' do
-    it 'returns Guess class object' do
-      expect(guess).to be_a(described_class)
-    end
+  describe '#validate' do
+    describe 'when the letter is present' do
+      let(:guess) { described_class.new(present_letter, word) }
 
-    it 'sets @word to word' do
-      word = guess.instance_variable_get(:@word)
-      expect(word).to eq(word)
-    end
+      describe 'when the letter has not been guessed before' do
+        let(:guess_history) { [described_class.new('r', word)] }
 
-    it 'sets @guess_tries to empty array' do
-      guess_tries = guess.instance_variable_get(:@guess_tries)
-      expect(guess_tries).to be_empty
-    end
-
-    it 'sets @current_guess to nil' do
-      current_guess = guess.instance_variable_get(:@current_guess)
-      expect(current_guess).to be_nil
-    end
-
-    it 'sets @mistakes_count to 0' do
-      mistakes_count = guess.instance_variable_get(:@mistakes_count)
-      expect(mistakes_count).to eq(0)
-    end
-
-    it 'sets @word_array to array of word' do
-      word_array = guess.instance_variable_get(:@word_array)
-      expect(word_array).to eq(word.split(''))
-    end
-
-    it 'sets @word_progress to array of underscores' do
-      word_progress = guess.instance_variable_get(:@word_progress)
-      expect(word_progress).to eq(Array.new(word.length, '_'))
-    end
-  end
-
-  describe '#try_guess' do
-    describe 'when typing wrong guess' do
-      let(:input_wrong_letter) { 'k' }
-      let(:blank_word_progress) { '____' }
-
-      before do
-        repos_response = instance_double(
-          TopHangman::Render,
-          ask_for_guess: input_wrong_letter
-        )
-        allow(TopHangman::Render).to receive(:new).and_return(repos_response)
+        it 'returns :right_guess' do
+          expect(guess.validate(guess_history)).to eq(described_class::RIGHT)
+        end
       end
 
-      it 'sets @word_progress to array of underscores' do
-        guess.try_guess
-        word_progress = guess.instance_variable_get(:@word_progress)
-        expect(word_progress.join('')).to eq(blank_word_progress)
-      end
+      describe 'when the letter has been guessed before' do
+        let(:guess_history) { [described_class.new(present_letter, word)] }
 
-      it 'returns :guess_wrong' do
-        expect(guess.try_guess).to eq(:guess_wrong)
+        it 'returns :repeated_guess' do
+          expect(guess.validate(guess_history)).to eq(described_class::REPEATED)
+        end
       end
     end
 
-    describe 'when typing right guess' do
-      let(:input_right_letter) { 'o' }
-      let(:word_progress_response) { "_#{input_right_letter}__" }
+    describe 'when the letter is not present' do
+      let(:guess) { described_class.new(absent_letter, word) }
 
-      before do
-        repos_response = instance_double(
-          TopHangman::Render,
-          ask_for_guess: input_right_letter
-        )
-        allow(TopHangman::Render).to receive(:new).and_return(repos_response)
+      describe 'when the letter has not been guessed before' do
+        let(:guess_history) { [described_class.new('r', word)] }
+
+        it 'returns :wrong_guess' do
+          expect(guess.validate(guess_history)).to eq(described_class::WRONG)
+        end
       end
 
-      it 'sets @current_guess to guess' do
-        guess.try_guess
-        current_guess = guess.instance_variable_get(:@current_guess)
-        expect(current_guess).to eq(input_right_letter)
-      end
+      describe 'when the letter has been guessed before' do
+        let(:guess_history) { [described_class.new(absent_letter, word)] }
 
-      it 'sets @guess_tries to array of guess' do
-        guess.try_guess
-        guess_tries = guess.instance_variable_get(:@guess_tries)
-        expect(guess_tries).to eq([input_right_letter])
-      end
-
-      it 'sets @word_progress to array of underscores' do
-        guess.try_guess
-        word_progress = guess.instance_variable_get(:@word_progress)
-        expect(word_progress.join('')).to eq(word_progress_response)
-      end
-
-      it 'returns :guess_correct' do
-        expect(guess.try_guess).to eq(:guess_correct)
+        it 'returns :repeated_guess' do
+          expect(guess.validate(guess_history)).to eq(described_class::REPEATED)
+        end
       end
     end
   end
