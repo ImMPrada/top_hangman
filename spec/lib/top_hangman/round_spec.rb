@@ -59,4 +59,53 @@ RSpec.describe TopHangman::Round do
       end
     end
   end
+
+  describe '#result' do
+    let(:current_word_string) { round.word.value }
+
+    describe 'when the round is not finished' do
+      it 'returns nil' do
+        expect(round.result).to be_nil
+      end
+    end
+
+    describe 'when the round is finished by completing the word' do
+      before do
+        current_word_string.each_char do |letter|
+          round.create_guess(letter)
+          round.update_state
+        end
+      end
+
+      it 'returns the won result' do
+        expect(round.result).to eq(described_class::WON)
+      end
+    end
+
+    describe 'when the round is finished by reaching the errors limit' do
+      before do
+        tries_count = 0
+        letters = ('a'..'z').to_a
+        fake_letters_used_array = []
+        until tries_count == described_class::ERRORS_LIMIT
+          use_letter = false
+
+          until use_letter
+            letter_to_use = letters.sample
+            use_letter = !current_word_string.include?(letter_to_use)
+            use_letter = !fake_letters_used_array.include?(letter_to_use) if use_letter
+            fake_letters_used_array << letter_to_use if use_letter
+          end
+
+          round.create_guess(letter_to_use)
+          round.update_state
+          tries_count += 1
+        end
+      end
+
+      it 'returns the lost result' do
+        expect(round.result).to eq(described_class::LOST)
+      end
+    end
+  end
 end
