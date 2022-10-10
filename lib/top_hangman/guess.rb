@@ -17,6 +17,8 @@ module TopHangman
       @word.letter_present?(@attempted_letter) ? RIGHT : WRONG
     end
 
+    private
+
     def repeated_letter?(history)
       history.any? { |old_guess| old_guess.attempted_letter == @attempted_letter }
     end
