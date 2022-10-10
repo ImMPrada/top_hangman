@@ -36,7 +36,8 @@ module TopHangman
         update_guess_history
       end
 
-      @state = STOPPED and return if finished?
+      @state = STOPPED if finished?
+      @state
     end
 
     def result
@@ -46,11 +47,11 @@ module TopHangman
       return LOST if @errors_count == ERRORS_LIMIT
     end
 
+    private
+
     def finished?
       @word.progress.all?(true) || @errors_count == ERRORS_LIMIT
     end
-
-    private
 
     def update_guess_history
       @guess_history << @current_guess
