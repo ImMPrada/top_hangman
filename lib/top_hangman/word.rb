@@ -8,9 +8,9 @@ module TopHangman
 
     attr_reader :progress, :value
 
-    def initialize(str)
+    def initialize(str, progress = nil)
       @value = str
-      @progress = Array.new(str.size, false)
+      @progress = progress || Array.new(str.size, false)
     end
 
     def update_progress_with(letter)

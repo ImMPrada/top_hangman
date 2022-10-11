@@ -12,12 +12,12 @@ module TopHangman
 
     attr_reader :word, :current_guess, :errors_count, :state, :guess_history
 
-    def initialize
-      @word = Word.from_list
-      @guess_history = []
-      @current_guess = nil
-      @errors_count = 0
-      @state = RUNNING
+    def initialize(word: nil, current_guess: nil, errors_count: 0, guess_history: [], state: RUNNING)
+      @word = word || Word.from_list
+      @guess_history = guess_history
+      @current_guess = current_guess
+      @errors_count = errors_count
+      @state = state
     end
 
     def create_guess(letter)
