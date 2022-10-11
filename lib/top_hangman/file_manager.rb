@@ -19,9 +19,10 @@ module TopHangman
       @selected_game = @saved_games[number - 1]
     end
 
-    def save_game
+    def save_game(name_tu_use = nil)
       current_game_hash = build_game_for_file(@current_game)
-      file = File.open("#{ROOT}#{build_file_name}", 'w')
+      file_name = name_tu_use || build_file_name
+      file = File.open("#{ROOT}#{file_name}", 'w')
       file.write(current_game_hash.to_yaml)
       file.close
 
