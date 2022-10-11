@@ -20,7 +20,7 @@ module TopHangman
     end
 
     def save_game
-      current_game_hash = build_game(@current_game)
+      current_game_hash = build_game_for_file(@current_game)
       file = File.open("#{ROOT}#{build_file_name}", 'w')
       file.write(current_game_hash.to_yaml)
       file.close
@@ -36,31 +36,31 @@ module TopHangman
       "#{time.year}_#{time.month}_#{time.day}_#{time.hour}_#{time.min}_#{time.sec}.yml"
     end
 
-    def build_game(game)
+    def build_game_for_file(game)
       {
-        current_round: build_round(game.current_round),
+        current_round: build_round_for_file(game.current_round),
         state: game.state,
-        rounds_history: game.rounds_history.map { |round| build_round(round) }
+        rounds_history: game.rounds_history.map { |round| build_round_for_file(round) }
       }
     end
 
-    def build_round(round)
+    def build_round_for_file(round)
       {
-        word: build_word(round.word),
-        guess_history: round.guess_history.map { |guess| build_guess(guess) },
-        current_guess: build_guess(round.current_guess),
+        word: build_word_for_file(round.word),
+        guess_history: round.guess_history.map { |guess| bueld_guess_for_file(guess) },
+        current_guess: bueld_guess_for_file(round.current_guess),
         errors_count: round.errors_count,
         state: round.state
       }
     end
 
-    def build_guess(guess)
+    def bueld_guess_for_file(guess)
       {
         attempted_letter: guess.attempted_letter
       }
     end
 
-    def build_word(word)
+    def build_word_for_file(word)
       {
         value: word.value,
         progress: word.progress
