@@ -14,7 +14,7 @@ RSpec.describe TopHangman::FileManager do
       )
     )
   end
-  let(:file_name) { 'testing_file' }
+  let(:file_name) { 'testing_file.yml' }
   let(:file_manager) { described_class.new(game) }
 
   describe '#save_game' do
