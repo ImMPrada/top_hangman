@@ -6,6 +6,7 @@ require './lib/top_hangman/word'
 require './lib/top_hangman/guess'
 require './lib/top_hangman/round'
 require './lib/top_hangman/game'
+require './lib/top_hangman/file_manager'
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
 SimpleCov::Formatter::LcovFormatter.config do |c|
