@@ -4,11 +4,9 @@ module TopHangman
     STOPPED = :stopped
 
     def initialize
-      puts 'hi from io'
       @state = RUNNING
     end
 
-    # class << self
     def execute(game, renderer, file_manager)
       @file_manager = file_manager
       game.start
@@ -20,6 +18,8 @@ module TopHangman
           execute_round_loop(renderer, game)
         end
 
+        return unless @state == RUNNING
+
         show_ending_round_message(renderer, game)
         ask_for_new_round(renderer, game)
       end
@@ -30,6 +30,7 @@ module TopHangman
       guess_letter = gets.chomp
 
       return save_game if guess_letter == '--save'
+      return load_game(renderer, @file_manager) if guess_letter == '--load'
 
       game.play_round(guess_letter)
       renderer.show_progress(
@@ -68,7 +69,12 @@ module TopHangman
       @state = STOPPED
       @file_manager.save_game
     end
-    # end
+
+    def load_game(renderer, file_manager)
+      puts 'load game'
+      game = file_manager.load_game('2022_10_11_12_5_59.yml')
+      execute(game, renderer, file_manager)
+    end
 
     private :execute_round_loop, :show_ending_round_message, :ask_for_new_round
   end
