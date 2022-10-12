@@ -8,13 +8,12 @@ module TopHangman
     end
 
     def execute(game, renderer, file_manager)
-      @file_manager = file_manager
       game.start
 
       while game.running?
         renderer.show_header(errors_count: game.current_round.errors_count)
 
-        execute_round_loop(renderer, game) while game.current_round.running? && @state == RUNNING
+        execute_round_loop(renderer, game, file_manager) while game.current_round.running? && @state == RUNNING
 
         return unless @state == RUNNING
 
@@ -23,12 +22,12 @@ module TopHangman
       end
     end
 
-    def execute_round_loop(renderer, game)
+    def execute_round_loop(renderer, game, file_manager)
       renderer.ask_for_guess
       guess_letter = gets.chomp
 
-      return save_game if guess_letter == '--save'
-      return load_game(renderer, @file_manager) if guess_letter == '--load'
+      return save_game(file_manager) if guess_letter == '--save'
+      return load_game(renderer, file_manager) if guess_letter == '--load'
 
       game.play_round(guess_letter)
       renderer.show_progress(
@@ -62,10 +61,10 @@ module TopHangman
       answer == 'Y' ? game.create_new_round : game.stop
     end
 
-    def save_game
+    def save_game(file_manager)
       puts 'save game'
       @state = STOPPED
-      @file_manager.save_game
+      file_manager.save_game
     end
 
     def load_game(renderer, file_manager)
