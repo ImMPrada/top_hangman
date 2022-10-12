@@ -19,9 +19,9 @@ module TopHangman
       @selected_game = @saved_games[number - 1]
     end
 
-    def save_game(name_tu_use = nil)
+    def save_game(name_to_use = nil)
       current_game_hash = build_game_for_file(@current_game)
-      file_name = name_tu_use || build_file_name
+      file_name = name_to_use || build_file_name
       file = File.open("#{ROOT}#{file_name}", 'w')
       file.write(current_game_hash.to_yaml)
       file.close
@@ -81,13 +81,14 @@ module TopHangman
     end
 
     def bueld_guess_for_file(guess)
+      puts guess
       {
-        attempted_letter: guess.attempted_letter
+        attempted_letter: guess&.attempted_letter
       }
     end
 
-    def build_guess_from_file(build_guess_from_file, word)
-      Guess.new(build_guess_from_file[:attempted_letter], word)
+    def build_guess_from_file(guess_from_file, word)
+      Guess.new(guess_from_file[:attempted_letter], word)
     end
 
     def build_word_for_file(word)
