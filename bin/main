@@ -11,7 +11,5 @@ system 'clear'
 game = TopHangman::Game.new
 renderer = TopHangman::Renderer.new
 file_manager = TopHangman::FileManager.new(game)
-# puts file_manager.list_all_saved_games
-# puts file_manager.load_game
 io = TopHangman::IO.new
 io.execute(game, renderer, file_manager)
