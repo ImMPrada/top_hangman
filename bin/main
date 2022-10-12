@@ -4,10 +4,12 @@ require 'byebug'
 
 require_relative '../lib/top_hangman/game'
 require_relative '../lib/top_hangman/renderer'
+require_relative '../lib/top_hangman/file_manager'
 require_relative '../lib/top_hangman/io'
 
 system 'clear'
 game = TopHangman::Game.new
 renderer = TopHangman::Renderer.new
-
-TopHangman::IO.execute(game, renderer)
+file_manager = TopHangman::FileManager.new(game)
+io = TopHangman::IO.new
+io.execute(game, renderer, file_manager)

@@ -9,15 +9,15 @@ module TopHangman
 
     attr_reader :current_round, :rounds_history, :state
 
-    def initialize
-      @current_round = nil
-      @rounds_history = []
+    def initialize(current_round = nil, rounds_history = [])
+      @current_round = current_round
+      @rounds_history = rounds_history
       @state = nil
     end
 
     def start
       @state = RUNNING
-      @current_round = Round.new
+      @current_round = Round.new unless @current_round&.running?
     end
 
     def play_round(letter)
@@ -32,6 +32,10 @@ module TopHangman
 
     def stop
       @state = STOPPED
+    end
+
+    def running?
+      @state == RUNNING
     end
   end
 end

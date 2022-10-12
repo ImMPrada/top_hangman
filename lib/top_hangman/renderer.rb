@@ -18,7 +18,7 @@ module TopHangman
       print_hangman_state(errors_count)
     end
 
-    def ask_for_guess
+    def ask_for_prompt
       puts 'Guess a letter:'
     end
 
