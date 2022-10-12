@@ -22,6 +22,8 @@ module TopHangman
       end
     end
 
+    private
+
     def execute_round_loop(renderer, game, file_manager)
       renderer.ask_for_guess
       guess_letter = gets.chomp
@@ -72,7 +74,5 @@ module TopHangman
       game = file_manager.load_game('2022_10_11_12_5_59.yml')
       execute(game, renderer, file_manager)
     end
-
-    private :execute_round_loop, :show_ending_round_message, :ask_for_new_round
   end
 end
