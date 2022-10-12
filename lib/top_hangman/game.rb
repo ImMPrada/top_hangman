@@ -33,5 +33,9 @@ module TopHangman
     def stop
       @state = STOPPED
     end
+
+    def running?
+      @state == RUNNING
+    end
   end
 end

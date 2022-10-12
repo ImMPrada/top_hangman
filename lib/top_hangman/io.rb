@@ -11,7 +11,7 @@ module TopHangman
       @file_manager = file_manager
       game.start
 
-      while game.state == Game::RUNNING
+      while game.running?
         renderer.show_header(errors_count: game.current_round.errors_count)
 
         execute_round_loop(renderer, game) while game.current_round.running? && @state == RUNNING
