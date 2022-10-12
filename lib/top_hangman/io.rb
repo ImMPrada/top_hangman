@@ -1,21 +1,14 @@
 module TopHangman
   class IO
-    RUNNING = :running
-    STOPPED = :stopped
-
-    def initialize
-      @state = RUNNING
-    end
-
     def execute(game, renderer, file_manager)
       game.start
 
       while game.running?
         renderer.show_header(errors_count: game.current_round.errors_count)
 
-        execute_round_loop(renderer, game, file_manager) while game.current_round.running? && @state == RUNNING
+        execute_round_loop(renderer, game, file_manager) while game.current_round.running?
 
-        return unless @state == RUNNING
+        return unless game.running?
 
         show_ending_round_message(renderer, game)
         ask_for_new_round(renderer, game)
@@ -28,7 +21,7 @@ module TopHangman
       renderer.ask_for_prompt
       new_prompt = gets.chomp
 
-      return save_game(file_manager) if new_prompt == '--save'
+      return save_game(game, file_manager) if new_prompt == '--save'
       return load_game(renderer, file_manager) if new_prompt == '--load'
 
       game.play_round(new_prompt)
@@ -63,9 +56,9 @@ module TopHangman
       answer == 'Y' ? game.create_new_round : game.stop
     end
 
-    def save_game(file_manager)
+    def save_game(game, file_manager)
       puts 'save game'
-      @state = STOPPED
+      game.stop
       file_manager.save_game
     end
 
