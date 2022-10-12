@@ -25,13 +25,13 @@ module TopHangman
     private
 
     def execute_round_loop(renderer, game, file_manager)
-      renderer.ask_for_guess
-      guess_letter = gets.chomp
+      renderer.ask_for_prompt
+      new_prompt = gets.chomp
 
-      return save_game(file_manager) if guess_letter == '--save'
-      return load_game(renderer, file_manager) if guess_letter == '--load'
+      return save_game(file_manager) if new_prompt == '--save'
+      return load_game(renderer, file_manager) if new_prompt == '--load'
 
-      game.play_round(guess_letter)
+      game.play_round(new_prompt)
       renderer.show_progress(
         errors_count: game.current_round.errors_count,
         guess_history: game.current_round.guess_history,
