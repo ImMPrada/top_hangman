@@ -47,6 +47,10 @@ module TopHangman
       return LOST if @errors_count == ERRORS_LIMIT
     end
 
+    def running?
+      @state == RUNNING
+    end
+
     private
 
     def finished?

@@ -14,9 +14,7 @@ module TopHangman
       while game.state == Game::RUNNING
         renderer.show_header(errors_count: game.current_round.errors_count)
 
-        while game.current_round.state == TopHangman::Round::RUNNING && @state == RUNNING
-          execute_round_loop(renderer, game)
-        end
+        execute_round_loop(renderer, game) while game.current_round.running? && @state == RUNNING
 
         return unless @state == RUNNING
 

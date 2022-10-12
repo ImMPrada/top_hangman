@@ -17,7 +17,7 @@ module TopHangman
 
     def start
       @state = RUNNING
-      @current_round = Round.new unless @current_round && @current_round.state == Round::RUNNING
+      @current_round = Round.new unless @current_round&.running?
     end
 
     def play_round(letter)
