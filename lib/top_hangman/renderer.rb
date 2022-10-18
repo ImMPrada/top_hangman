@@ -56,6 +56,19 @@ module TopHangman
       puts 'Y/N'.yellow
     end
 
+    def show_files_list(list_of_files_names)
+      count = 1
+
+      list_of_files_names.each do |file_name|
+        puts "    #{count} #{file_name}".yellow
+        count += 1
+      end
+
+      puts ' '
+      puts "select a game (#{1} .. #{count})".green
+      puts ' '
+    end
+
     private
 
     def print_title
