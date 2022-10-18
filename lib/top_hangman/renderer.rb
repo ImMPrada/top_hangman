@@ -65,7 +65,7 @@ module TopHangman
       end
 
       puts ' '
-      puts "select a game (#{1} .. #{count})".green
+      puts "select a game (1 .. #{count})".green
       puts ' '
     end
 
