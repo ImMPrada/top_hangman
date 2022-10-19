@@ -63,8 +63,10 @@ module TopHangman
     end
 
     def load_game(renderer, file_manager)
-      puts 'load game'
-      game = file_manager.load_game('2022_10_11_12_5_59.yml')
+      renderer.show_files_list(file_manager.list_all_saved_games)
+      game_index = gets.chomp.to_i
+
+      game = file_manager.load_game(file_manager.select_game(game_index))
       execute(game, renderer, file_manager)
     end
   end
